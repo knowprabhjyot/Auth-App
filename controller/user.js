@@ -1,5 +1,7 @@
 const User = require("../model/user");
 const bcrypt = require("bcryptjs"); // This library/package will be used to encrypt the password
+const jwt = require("jsonwebtoken"); // This Library will help us give and verify access tokens
+
 
 const registerUser = async (request, response) => {
     const data = request.body;
@@ -26,7 +28,7 @@ const registerUser = async (request, response) => {
         })
     }
 
-}   
+}
 
 const loginUser = async (request, response) => {
     const data = request.body;
@@ -40,9 +42,19 @@ const loginUser = async (request, response) => {
         const matchPassword = await bcrypt.compare(data.password, foundUser.password);
 
         if (matchPassword) {
+
+            // We are trying to create an access token based on which the user will be able to interact with the website
+            const accessToken = jwt.sign(
+                {
+                    email: foundUser.email,
+                    name: foundUser.name
+                },
+                process.env.SECRET_KEY
+            )
+
             return response.status(200).json({
                 message: "User Succesfully Logged In",
-                data: foundUser
+                accessToken
             })
         } else {
             // User password is incorrect
@@ -64,12 +76,33 @@ const loginUser = async (request, response) => {
 
 }
 
-const getAllUsers = () => {
+const getAllUsers = async (request, response) => {
+    try {
+        const data = await User.find();
 
+        const filteredData = data.map((user) => {
+            return {
+                name: user.name,
+                email: user.email,
+                id: user._id,
+                createdAt: user.createdAt
+            }
+        })
+
+        return response.status(200).json({
+            message: "Users found Succesfully",
+            filteredData
+        })
+    } catch (error) {
+        return response.status(500).json({
+            message: "There was an error",
+            error
+        })
+    }
 }
 
 module.exports = {
     registerUser,
     loginUser,
-    // getAllUsers
+    getAllUsers
 }

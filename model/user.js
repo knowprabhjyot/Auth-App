@@ -15,6 +15,7 @@ const UserSchema = mongoose.Schema({
         required: true
     }
 }, {
+    // This ensures that we have created at and updated at
     timestamps: true
 })
 
