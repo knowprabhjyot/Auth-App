@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT ||  4000;
 const mongoose = require("mongoose");
 const userRoutes=  require("./routes/user");
-
+const postRoute = require("./routes/post");
 
 // We are using this so that we can use .env file,. beacuse we want certain data to be confidential
 require('dotenv').config();
@@ -30,6 +30,7 @@ app.get('/', (request, response) => {
 
 // We will use middleware
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/posts', postRoute);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
