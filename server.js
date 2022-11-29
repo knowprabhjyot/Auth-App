@@ -15,6 +15,10 @@ require('dotenv').config();
 // Parsing incoming values
 app.use(express.json());
 
+// Throught this middleware you can connect to your frontend application
+app.use(express.static("public"));
+
+
 
 mongoose.connect(process.env.MONGO_URI, (error) => {
     if (error) {
@@ -24,9 +28,11 @@ mongoose.connect(process.env.MONGO_URI, (error) => {
     }
 })
 
-app.get('/', (request, response) => {
-    return response.send("Endpoints are here!");
-})
+
+// We are commenting it out because i want to show frotnend here!
+// app.get('/', (request, response) => {
+//     return response.send("Endpoints are here!");
+// })
 
 // We will use middleware
 app.use('/api/v1/users', userRoutes);
