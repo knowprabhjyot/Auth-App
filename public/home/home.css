@@ -1,0 +1,39 @@
+.card {
+    background: #ededed;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#postsview {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 20px;
+}
+
+
+#add-icon {
+    background: brown;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    border: none;
+}
+
+.menu-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logout-button {
+    background: black;
+    color: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}

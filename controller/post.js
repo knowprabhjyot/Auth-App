@@ -5,13 +5,13 @@ const User = require("../model/user");
 const createPost = async (request, response) => {
     const data = request.body;
 
-    // The ? mark checks for optional
-    const token = request.headers?.authorization.split(" ")[1];
+    // The ? mark checks for optional (NOW WE DON"T NEED THIS BECAUSE THIS IS ALREADY DONE IN VALIDATETOKEN MIDDLEWARE)
+    // const token = request.headers?.authorization.split(" ")[1];
 
-    if (token) {        
-        const decodedValue = jwt.decode(token, { complete : true} );
+    if (request.decodedEmail) {        
+        // const decodedValue = jwt.decode(token, { complete : true} );
 
-        const findUser = await  User.findOne({ email: decodedValue?.payload?.email});
+        const findUser = await  User.findOne({ email: request.decodedEmail});
 
         if (findUser) {
             const newPost = new Post({

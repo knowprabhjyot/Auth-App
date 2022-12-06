@@ -4,6 +4,7 @@ const app = express();
 // This tells the server to use there own port if they wnat
 
 const PORT = process.env.PORT ||  4000;
+const morgan = require("morgan");
 const mongoose = require("mongoose");
 const userRoutes=  require("./routes/user");
 const postRoute = require("./routes/post");
@@ -18,6 +19,8 @@ app.use(express.json());
 // Throught this middleware you can connect to your frontend application
 app.use(express.static("public"));
 
+// This middleware helps us see the incoming requests in the form of logs
+app.use(morgan('dev'));
 
 
 mongoose.connect(process.env.MONGO_URI, (error) => {

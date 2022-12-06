@@ -2,6 +2,17 @@
 let user = {};
 let baseUrl = "/api/v1";
 
+(function isAlreadyLoggedIN() {
+    let accessToken = JSON.parse(localStorage.getItem("acess-token"));
+
+    if (accessToken) {
+        window.location.href = "home/home.html";
+    }
+})();
+
+// IIFE --> Immediately Invoked Functions
+// https://developer.mozilla.org/en-US/docs/Glossary/IIFE#:~:text=An%20IIFE%20(Immediately%20Invoked%20Function,Ben%20Alman%20in%20his%20blog.
+
 const setName = (event) => {
     user.name = event.target.value;
 }

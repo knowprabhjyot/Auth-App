@@ -4,10 +4,12 @@ const router = express.Router();
 
 // Here we are using destructuring
 const { registerUser, loginUser, getAllUsers } = require("../controller/user");
+const validateToken = require("../middleware/validate");
 
 // router.get("/", userController.getAllUsers)
 
-router.get("/", getAllUsers);
+// IF you are authorized then only you would be able to see users list
+router.get("/", validateToken, getAllUsers);
 
 
 

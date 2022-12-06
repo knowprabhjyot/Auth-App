@@ -48,6 +48,7 @@ const loginUser = async (request, response) => {
         if (matchPassword) {
 
             // We are trying to create an access token based on which the user will be able to interact with the website
+            // Secret key is an ingredient 
             const accessToken = jwt.sign(
                 {
                     email: foundUser.email,
@@ -83,6 +84,9 @@ const loginUser = async (request, response) => {
 
 const getAllUsers = async (request, response) => {
     console.log("I am called after the middleware in server.js");
+
+    console.log(request.decodedEmail, request.decodedName);
+
     try {
         // It finds all the documents/data relevant to the given Model
         const data = await User.find();

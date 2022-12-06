@@ -4,12 +4,13 @@ const router = express.Router();
 
 // Here we are using destructuring
 const { createPost, getAllPosts } = require("../controller/post");
+const validateToken = require("../middleware/validate");
 
 // router.get("/", userController.getAllUsers)
 
 router.get("/", getAllPosts);
 
-router.post("/create", createPost)
+router.post("/create", validateToken, createPost)
 
 
 // router.get("/:id", userController.getUserById)
