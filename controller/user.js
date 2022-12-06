@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken"); // This Library will help us give and verif
 
 
 const registerUser = async (request, response) => {
+
+    // Incoming Data
     const data = request.body;
 
     // We are hashing/encrypting password based the data.password string and the salt value 10 which is the utmost encryption
@@ -16,6 +18,7 @@ const registerUser = async (request, response) => {
     })
 
     try {
+        // This save method is a function inside mongoose which creates data in database
         const output = await newUser.save();
         return response.status(201).json({
             message: "Succesfully Registered User",
@@ -33,12 +36,13 @@ const registerUser = async (request, response) => {
 const loginUser = async (request, response) => {
     const data = request.body;
 
+    // So first we check if user exists inside database
     let foundUser = await User.findOne({ email: data.email });
 
     if (foundUser) {
         // Then we will check for password
 
-        // This will be either true or false
+        // This will be either true or false (Match the password)
         const matchPassword = await bcrypt.compare(data.password, foundUser.password);
 
         if (matchPassword) {
@@ -54,7 +58,8 @@ const loginUser = async (request, response) => {
 
             return response.status(200).json({
                 message: "User Succesfully Logged In",
-                accessToken
+                accessToken,
+                data: foundUser
             })
         } else {
             // User password is incorrect
@@ -77,9 +82,12 @@ const loginUser = async (request, response) => {
 }
 
 const getAllUsers = async (request, response) => {
+    console.log("I am called after the middleware in server.js");
     try {
+        // It finds all the documents/data relevant to the given Model
         const data = await User.find();
 
+        // So we are filtering useful information, so we don't send the password to the client
         const filteredData = data.map((user) => {
             return {
                 name: user.name,

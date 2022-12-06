@@ -30,7 +30,8 @@ const submitUserLoginForm = async (event) => {
 
         // We have to fix this 
         if (finalIncomingResponse.accessToken) {
-            window.location.href = "/home.html";
+            localStorage.setItem("user", JSON.stringify(finalIncomingResponse.data));
+            window.location.href = "/home/home.html";
         } else {
             alert(finalIncomingResponse.message);
         }
